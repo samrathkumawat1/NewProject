@@ -4,9 +4,12 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 import Home from "./Home";
+import { useHistory } from "react-router";
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'; 
 
 function Login() {
+
+  const history = useHistory();
 
   const  signup=(res)=> {
         const googleresponse = {
@@ -16,10 +19,15 @@ function Login() {
           Image: res.profileObj.imageUrl,
           ProviderId: 'Google'
         };
-        console.log("response data:",googleresponse)
-        sessionStorage.setItem("userData", googleresponse);
-        this.props.history.push('/Home')
-        debugger;
+        console.log("response data:",googleresponse);
+        console.log("response nae:",googleresponse.Name);
+        sessionStorage.setItem("userData", googleresponse.Name);
+        //this.props.history.push('/Home')
+        history.push({
+          pathname:  "/Home",
+          
+       });
+       // debugger;
       // axios.post('http://localhost:60200/Api/Login/SocialmediaData', googleresponse)
       //   .then((result) => {
       //     let responseJson = result;
@@ -32,8 +40,7 @@ function Login() {
           console.log(response);
           var res = response.profileObj;
           console.log(res);
-          debugger;
-          this.signup(response);
+          signup(response);
         }
   return (
     <div className="App">
@@ -47,7 +54,7 @@ function Login() {
             <div className="col-sm-4"></div>
             <div className="col-sm-4">
               <GoogleLogin
-                clientId="926588660070-rej7sfgdmd4qm5oluvtugvuo8h5nhuek.apps.googleusercontent.com"
+                clientId="926588660070-bmb7vjmkflc5v96avtu8a32slrm4npbe.apps.googleusercontent.com"
                 buttonText="Login with Google"
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle} ></GoogleLogin>
